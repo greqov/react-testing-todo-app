@@ -1,10 +1,17 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
 import App from '../App';
+import mockData from '../__mocks__/mockData';
 
-describe('App component', () => {
-  it('renders correct heading', () => {
-    const { getByRole } = render(<App />);
-    expect(getByRole('heading').textContent).toMatch(/such app!/i);
+beforeEach(() => {
+  fetchMock.enableMocks();
+  fetchMock.once(JSON.stringify(mockData));
+});
+
+describe('<App /> tests', () => {
+  it('renders <App />', async () => {
+    render(<App />);
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
   });
 });
