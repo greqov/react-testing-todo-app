@@ -17,7 +17,8 @@
     "object-shorthand": "off",
     "class-methods-use-this": "off",
     "strict": ["error", "global"],
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "react/prop-types": "off"
   },
   "ignorePatterns": ["dist/"]
 }
