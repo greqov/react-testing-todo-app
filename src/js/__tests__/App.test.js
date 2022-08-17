@@ -1,12 +1,13 @@
 import React from 'react';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import fetchMock from 'jest-fetch-mock';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import mockData from '../__mocks__/mockData';
 
 beforeEach(() => {
+  // eslint-disable-next-line no-undef
   fetchMock.enableMocks();
+  // eslint-disable-next-line no-undef
   fetchMock.once([JSON.stringify(mockData)]);
 });
 
@@ -17,6 +18,7 @@ describe('<App /> tests', () => {
   });
 
   it('should add a todo item', async () => {
+    // eslint-disable-next-line no-undef
     fetchMock.once(
       JSON.stringify({
         userId: 3,
@@ -36,5 +38,16 @@ describe('<App /> tests', () => {
     const savingLabel = await screen.findByText(/saving/i);
     await waitForElementToBeRemoved(savingLabel);
     expect(screen.getByText(/Do math homework/i)).toBeInTheDocument();
+  });
+
+  test('remove todo item from list', async () => {
+    render(<App />);
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    userEvent.click(screen.getByTestId('close-btn-3'));
+    // NOTE: fails without next await line
+    // I don't know why
+    await waitForElementToBeRemoved(() => screen.getByText(/Take out the trash/i));
+    screen.debug();
+    expect(screen.queryByText(/Take out the trash/i)).not.toBeInTheDocument();
   });
 });

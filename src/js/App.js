@@ -36,6 +36,10 @@ export default function App() {
       });
   }
 
+  function removeTodo(id) {
+    setTodos(todos.filter((t) => t.id !== id));
+  }
+
   useEffect(() => {
     async function fetchData() {
       const result = await fetch('https://jsonplaceholder.typicode.com/todos').then((response) =>
@@ -51,7 +55,7 @@ export default function App() {
   return (
     <div>
       <h1>Todo List</h1>
-      {loading ? 'Loading...' : <TodoList todos={todos} />}
+      {loading ? 'Loading...' : <TodoList todos={todos} removeHandler={removeTodo} />}
       {saving ? (
         <span>Saving...</span>
       ) : (
